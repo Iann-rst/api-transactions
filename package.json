@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "knex": "node --no-warnings --loader tsx ./node_modules/.bin/knex",
@@ -29,6 +32,7 @@
     "dotenv": "^16.0.3",
     "fastify": "^4.12.0",
     "knex": "^2.4.2",
+    "pg": "^8.9.0",
     "sqlite3": "^5.1.4",
     "zod": "^3.20.2"
   }
