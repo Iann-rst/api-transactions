@@ -59,4 +59,35 @@ describe('Transactions routes', () => {
       expect.objectContaining({ title: 'New Transaction', amount: 3500 }),
     ])
   })
+
+  it('should be able to get a specific transaction', async () => {
+    const createTransactionResponse = await request(app.server)
+      .post('/transactions')
+      .send({
+        title: 'New specific Transaction',
+        amount: 2500,
+        type: 'credit',
+      })
+
+    const cookies = createTransactionResponse.get('Set-Cookie')
+
+    const listTransactionsResponse = await request(app.server)
+      .get('/transactions')
+      .set('Cookie', cookies)
+      .expect(200)
+
+    const transactionId = listTransactionsResponse.body.transactions[0].id
+
+    const getTransactionResponse = await request(app.server)
+      .get(`/transactions/${transactionId}`)
+      .set('Cookie', cookies)
+      .expect(200)
+
+    expect(getTransactionResponse.body.transaction).toEqual(
+      expect.objectContaining({
+        title: 'New specific Transaction',
+        amount: 2500,
+      }),
+    )
+  })
 })
